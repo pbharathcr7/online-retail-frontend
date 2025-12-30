@@ -29,8 +29,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/Online-retail/",
-              "deployUrl": "/Online-retail/",
+              "baseHref": "/online-retail-frontend/",
               "budgets": [
                 {
                   "type": "initial",
