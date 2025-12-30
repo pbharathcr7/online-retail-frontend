@@ -1,0 +1,82 @@
+<div class="template">
+  <img src="../../assets/icons/composition-black-friday-shopping-cart-with-copy-space.jpg" class="animated-image" />
+  <div class="overlay-card">
+    <h2>Special Offers</h2>
+    <p>Get the best deals on our top products!</p>
+  </div>
+</div>
+<h2 class="products-header">Products List</h2>
+<div class="filter-container">
+  <div>
+    <label>Category:</label>
+    <select [(ngModel)]="filters.category" (change)="loadProducts()">
+      <option value="">All</option>
+      <option *ngFor="let category of categories" [value]="category.toLowerCase()">
+        {{ category }}
+      </option>
+    </select>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" [(ngModel)]="filters.isActive" (change)="loadProducts()" />
+      isActive
+    </label>
+  </div>
+  <div>
+    <label>Min Price:</label>
+    <input type="number" [(ngModel)]="filters.minPrice" (change)="loadProducts()" />
+  </div>
+  <div>
+    <label>Max Price:</label>
+    <input type="number" [(ngModel)]="filters.maxPrice" (change)="loadProducts()" />
+  </div>
+
+  <div>
+    <label>Sort By:</label>
+    <select [(ngModel)]="filters.sortBy" (change)="loadProducts()">
+      <option value="price">Price</option>
+      <option value="productName">Name</option>
+      <option value="quantity">Quantity</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Order:</label>
+    <select [(ngModel)]="filters.order" (change)="loadProducts()">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+</div>
+<div class="products-grid">
+  <div *ngFor="let product of filteredProducts| paginate: { itemsPerPage: itemsPerPage, currentPage: p }"
+    class="product-card">
+    <div>
+      <button (click)="toggleWishlist(product)" class="wishlist-button">
+        <span *ngIf="isInWishlist(product)">❤️</span>
+        <span *ngIf="!isInWishlist(product)">🤍</span>
+      </button>
+    </div>
+    <h3 class="product-name">{{ product.productName }}</h3>
+    <p class="product-category">Category: {{ product.category }}</p>
+    <p class="product-quantity">Quantity: <strong>{{ product.quantity }}</strong></p>
+    <p class="product-quantity">Price: <strong>{{ product.price }}</strong></p>
+    <p class="product-status">
+      Status:
+      <span [class.active]="product.isActive" [class.inactive]="!product.isActive">
+        {{ product.isActive ? 'Active' : 'Inactive' }}
+      </span>
+    </p>
+    <button (click)="addToCart(product)" class="order-button">Add to Cart</button>
+  </div>
+</div>
+<div class="pagination">
+  <pagination-controls class="pgctrl" (pageChange)="p = $event"></pagination-controls>
+</div>
+<!-- </div> -->
+
+<ng-template #noProducts>
+  <div class="no-products">
+    <p>No products available.</p>
+  </div>
+</ng-template>

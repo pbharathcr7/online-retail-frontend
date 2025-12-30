@@ -1,0 +1,21 @@
+<nav class="navbar">
+    <div class="nav-logo">
+      <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+        <img alt="Logo" src="../assets/icons/online-retail-logo.png">
+      </a>
+    </div>
+    <div class="search-container" *ngIf="isHomePage()">
+      <input type="text" class="search-input" placeholder="Search products..." #searchInput
+        (keydown.enter)="onSearch(searchInput.value)" />
+      <button class="search-button" (click)="onSearch(searchInput.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a routerLink="/wishlist" routerLinkActive="active-link">Wishlist ❤️</a>
+      <a routerLink="/add-product" routerLinkActive="active-link">Add Product</a>
+      <a routerLink="/place-order" routerLinkActive="active-link"><img alt="Logo"
+          src="../assets/icons/grocery-store.png"></a>
+    </div>
+  </nav>

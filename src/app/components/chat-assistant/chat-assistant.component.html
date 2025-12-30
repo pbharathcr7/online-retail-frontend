@@ -1,0 +1,27 @@
+<div class="chat-window" [ngClass]="{ 'open': chatOpen }">
+    <div>
+        <button class="close-btn" (click)="toggleChat()">
+            <img alt="Close-button" src="../../assets/icons/close.png">
+        </button>
+    </div>
+    <div class="chat">
+        <h3 class="heading">Chatbot</h3>
+        <div *ngFor="let msg of chatHistory" [ngClass]="msg.sender">
+            <p>{{ msg.text }}</p>
+        </div>
+    </div>
+    <div class="input-area">
+        <input [(ngModel)]="userMessage" placeholder="Ask me anything..." type="text">
+        <div>
+            <button class="send-btn"(click)="sendMessage()">
+                <img src="../../assets/icons/send-icon.png" alt="Send">
+            </button>
+        </div>
+    </div>
+</div>
+
+<div>
+    <button class="chat-button"(click)="toggleChat()"> 
+    <img src="../../assets/icons/chat-icon.png" alt="Start Chat">
+    </button>
+</div>
