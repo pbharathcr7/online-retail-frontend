@@ -1,7 +1,7 @@
 <div class="chat-window" [ngClass]="{ 'open': chatOpen }">
     <div>
         <button class="close-btn" (click)="toggleChat()">
-            <img alt="Close-button" src="../../assets/icons/close.png">
+            <img alt="Close-button" src="assets/icons/close.png">
         </button>
     </div>
     <div class="chat">
@@ -14,7 +14,7 @@
         <input [(ngModel)]="userMessage" placeholder="Ask me anything..." type="text">
         <div>
             <button class="send-btn"(click)="sendMessage()">
-                <img src="../../assets/icons/send-icon.png" alt="Send">
+                <img src="assets/icons/send-icon.png" alt="Send">
             </button>
         </div>
     </div>
@@ -22,6 +22,6 @@
 
 <div>
     <button class="chat-button"(click)="toggleChat()"> 
-    <img src="../../assets/icons/chat-icon.png" alt="Start Chat">
+    <img src="assets/icons/chat-icon.png" alt="Start Chat">
     </button>
 </div>
