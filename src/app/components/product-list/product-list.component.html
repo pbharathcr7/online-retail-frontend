@@ -5,78 +5,106 @@
     <p>Get the best deals on our top products!</p>
   </div>
 </div>
+
 <h2 class="products-header">Products List</h2>
-<div class="filter-container">
-  <div>
-    <label>Category:</label>
-    <select [(ngModel)]="filters.category" (change)="loadProducts()">
-      <option value="">All</option>
-      <option *ngFor="let category of categories" [value]="category.toLowerCase()">
-        {{ category }}
-      </option>
-    </select>
-  </div>
-  <div>
-    <label>
-      <input type="checkbox" [(ngModel)]="filters.isActive" (change)="loadProducts()" />
-      isActive
-    </label>
-  </div>
-  <div>
-    <label>Min Price:</label>
-    <input type="number" [(ngModel)]="filters.minPrice" (change)="loadProducts()" />
-  </div>
-  <div>
-    <label>Max Price:</label>
-    <input type="number" [(ngModel)]="filters.maxPrice" (change)="loadProducts()" />
-  </div>
 
-  <div>
-    <label>Sort By:</label>
-    <select [(ngModel)]="filters.sortBy" (change)="loadProducts()">
-      <option value="price">Price</option>
-      <option value="productName">Name</option>
-      <option value="quantity">Quantity</option>
-    </select>
-  </div>
+<div class="filter-bar">
+  <div class="filter-content">
+    <div class="filter-items">
+      <div class="filter-item">
+        <label class="filter-label">Category</label>
+        <select class="modern-select" [(ngModel)]="filters.category" (change)="loadProducts()">
+          <option value="">All Categories</option>
+          <option *ngFor="let category of categories" [value]="category.toLowerCase()">
+            {{ category }}
+          </option>
+        </select>
+      </div>
 
-  <div>
-    <label>Order:</label>
-    <select [(ngModel)]="filters.order" (change)="loadProducts()">
-      <option value="asc">Ascending</option>
-      <option value="desc">Descending</option>
-    </select>
-  </div>
-</div>
-<div class="products-grid">
-  <div *ngFor="let product of filteredProducts| paginate: { itemsPerPage: itemsPerPage, currentPage: p }"
-    class="product-card">
-    <div>
-      <button (click)="toggleWishlist(product)" class="wishlist-button">
-        <span *ngIf="isInWishlist(product)">❤️</span>
-        <span *ngIf="!isInWishlist(product)">🤍</span>
+      <div class="filter-item price-range-wrapper">
+        <label class="filter-label">Price Range</label>
+        <div class="price-range">
+          <input type="number" class="price-input" placeholder="Min ₹" [(ngModel)]="filters.minPrice"
+            (change)="loadProducts()" />
+          <span class="separator">-</span>
+          <input type="number" class="price-input" placeholder="Max ₹" [(ngModel)]="filters.maxPrice"
+            (change)="loadProducts()" />
+        </div>
+      </div>
+
+      <div class="filter-item">
+        <label class="filter-label">Sort By</label>
+        <select class="modern-select" [(ngModel)]="filters.sortBy" (change)="loadProducts()">
+          <option value="">None</option>
+          <option value="price">Price</option>
+          <option value="productName">Name</option>
+          <option value="quantity">Quantity</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label class="filter-label">Order</label>
+        <select class="modern-select" [(ngModel)]="filters.order" (change)="loadProducts()">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+
+      <div class="filter-item checkbox-filter row-align">
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="filters.isActive" (change)="loadProducts()" />
+          <span class="slider"></span>
+        </label>
+        <span class="checkbox-label">Active Only</span>
+      </div>
+    </div>
+
+    <div class="filter-actions">
+      <span class="results-badge">{{ totalProduct }} items</span>
+      <button class="clear-btn" (click)="resetFilters()" *ngIf="hasActiveFilters()">
+        <span>✕</span> Clear
       </button>
     </div>
-    <h3 class="product-name">{{ product.productName }}</h3>
-    <p class="product-category">Category: {{ product.category }}</p>
-    <p class="product-quantity">Quantity: <strong>{{ product.quantity }}</strong></p>
-    <p class="product-quantity">Price: <strong>{{ product.price }}</strong></p>
-    <p class="product-status">
-      Status:
-      <span [class.active]="product.isActive" [class.inactive]="!product.isActive">
-        {{ product.isActive ? 'Active' : 'Inactive' }}
-      </span>
-    </p>
-    <button (click)="addToCart(product)" class="order-button">Add to Cart</button>
   </div>
 </div>
-<div class="pagination">
+
+<!-- Products Grid with Inline Loader -->
+<div class="products-section">
+  <!-- Simple Loader -->
+  <div class="products-loader" *ngIf="isLoading">
+    <div class="loader-spinner"></div>
+    <p>Loading products...</p>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="products-grid" *ngIf="!isLoading">
+    <div *ngFor="let product of filteredProducts | paginate: { itemsPerPage: itemsPerPage, currentPage: p }"
+      class="product-card">
+      <div>
+        <button (click)="toggleWishlist(product)" class="wishlist-button">
+          <span *ngIf="isInWishlist(product)">❤️</span>
+          <span *ngIf="!isInWishlist(product)">🤍</span>
+        </button>
+      </div>
+      <h3 class="product-name">{{ product.productName }}</h3>
+      <p class="product-category">Category: {{ product.category }}</p>
+      <p class="product-quantity">Quantity: <strong>{{ product.quantity }}</strong></p>
+      <p class="product-quantity">Price: <strong>{{ product.price }}</strong></p>
+      <p class="product-status">
+        Status:
+        <span [class.active]="product.isActive" [class.inactive]="!product.isActive">
+          {{ product.isActive ? 'Active' : 'Inactive' }}
+        </span>
+      </p>
+      <button (click)="addToCart(product)" class="order-button">Add to Cart</button>
+    </div>
+  </div>
+
+  <div class="no-products" *ngIf="!isLoading && filteredProducts.length === 0">
+    <p>No products found matching your filters.</p>
+  </div>
+</div>
+
+<div class="pagination" *ngIf="!isLoading && filteredProducts.length > 0">
   <pagination-controls class="pgctrl" (pageChange)="p = $event"></pagination-controls>
 </div>
-<!-- </div> -->
-
-<ng-template #noProducts>
-  <div class="no-products">
-    <p>No products available.</p>
-  </div>
-</ng-template>

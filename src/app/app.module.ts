@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { ProductListComponent } from '../app/components/product-list/product-list.component';
 import { AddProductComponent } from '../app/components/add-product/add-product.component';
 import { PlaceOrderComponent } from '../app/components/place-order/place-order.component';
-import { ChatAssistantComponent } from './components/chat-assistant/chat-assistant.component';
 import { WishlistComponent } from '../app/components/wishlist/wishlist.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
@@ -26,7 +25,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     AddProductComponent,
     PlaceOrderComponent,
     WishlistComponent,
-    ChatAssistantComponent,
   ],
   imports: [
     BrowserModule, // module that Angular needs to run the app in the browser
